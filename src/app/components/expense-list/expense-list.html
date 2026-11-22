@@ -1,0 +1,14 @@
+<ul>
+  @for (e of expenses; track e.id) {
+    <li>
+      <span class="name">
+        {{ e.description }} <small>({{ e.group }})</small>
+        <br /><small>Split between: {{ e.participants.join(', ') }}</small>
+      </span>
+      <span class="who">{{ e.paidBy }} paid <strong>₹{{ e.amount }}</strong></span>
+      <button (click)="remove.emit(e.id)" title="Delete">Delete</button>
+    </li>
+  } @empty {
+    <li>No expenses yet.</li>
+  }
+</ul>

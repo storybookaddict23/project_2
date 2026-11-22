@@ -1,0 +1,96 @@
+<h1>Splits</h1>
+
+<h2>1. Expense by expense</h2>
+@for (e of svc.expenses(); track e.id) {
+  <div class="split">
+    <h3>{{ e.description }} ({{ e.group }})</h3>
+    <p class="formula">
+      Paid by {{ e.paidBy }}. Calculation: ₹{{ e.amount | number }} / {{ e.participants.length }}
+      people = ₹{{ svc.shareOf(e) | number: '1.0-2' }} each.
+    </p>
+    <table>
+      <tr><th>Person</th><th>Paid</th><th>Share</th><th>Result</th></tr>
+      @for (r of svc.splitRows(e); track r.name) {
+        <tr [class.dim]="!r.involved && r.paid === 0">
+          <td>{{ r.name }}</td>
+          <td>₹{{ r.paid | number: '1.0-2' }}</td>
+          <td>₹{{ r.share | number: '1.0-2' }}</td>
+          <td [class.owed]="r.net > 0" [class.owes]="r.net < 0">
+            @if (!r.involved && r.paid === 0) {
+              Not involved
+            } @else if (r.net > 0) {
+              Gets back ₹{{ r.net | number: '1.0-2' }}
+            } @else if (r.net < 0) {
+              Owes ₹{{ abs(r.net) | number: '1.0-2' }}
+            } @else {
+              Settled
+            }
+          </td>
+        </tr>
+      }
+    </table>
+  </div>
+} @empty {
+  <p>No expenses to split yet.</p>
+}
+
+<h2>2. Person ledger</h2>
+<div class="tabs">
+  @for (m of svc.members; track m) {
+    <button [class.on]="m === selected()" (click)="pick(m)">{{ m }}</button>
+  }
+</div>
+
+<div class="split">
+  <h3>All calculations for {{ selected() }}</h3>
+  <table>
+    <tr>
+      <th>Expense</th><th>Total</th><th>Paid by</th>
+      <th>{{ selected() }} paid</th><th>{{ selected() }} share</th>
+      <th>Net</th><th>Running balance</th>
+    </tr>
+    @for (r of ledger().rows; track r.id) {
+      <tr [class.dim]="!r.involved && r.paid === 0">
+        <td>{{ r.description }}</td>
+        <td>₹{{ r.amount | number: '1.0-2' }}</td>
+        <td>{{ r.paidBy }}</td>
+        <td>₹{{ r.paid | number: '1.0-2' }}</td>
+        <td>₹{{ r.share | number: '1.0-2' }}</td>
+        <td [class.owed]="r.net > 0" [class.owes]="r.net < 0">
+          {{ r.net >= 0 ? '+' : '-' }}₹{{ abs(r.net) | number: '1.0-2' }}
+        </td>
+        <td [class.owed]="r.running > 0" [class.owes]="r.running < 0">
+          {{ r.running >= 0 ? '+' : '-' }}₹{{ abs(r.running) | number: '1.0-2' }}
+        </td>
+      </tr>
+    }
+    <tr class="total">
+      <td colspan="3">Totals</td>
+      <td>₹{{ ledger().totalPaid | number: '1.0-2' }}</td>
+      <td>₹{{ ledger().totalOwed | number: '1.0-2' }}</td>
+      <td colspan="2" [class.owed]="ledger().net > 0" [class.owes]="ledger().net < 0">
+        @if (ledger().net > 0) {
+          {{ selected() }} gets back ₹{{ ledger().net | number: '1.0-2' }}
+        } @else if (ledger().net < 0) {
+          {{ selected() }} owes ₹{{ abs(ledger().net) | number: '1.0-2' }}
+        } @else {
+          {{ selected() }} is fully settled
+        }
+      </td>
+    </tr>
+  </table>
+  <p class="meta">
+    Net = amount paid minus share. A plus means others owe this person; a minus means this person owes others.
+  </p>
+</div>
+
+<h2>3. Who pays whom</h2>
+<div class="split">
+  <ul>
+    @for (s of svc.settlements(); track s.from + s.to) {
+      <li>{{ s.from }} pays {{ s.to }} <strong>₹{{ s.amount | number: '1.0-2' }}</strong></li>
+    } @empty {
+      <li>Everyone is settled up.</li>
+    }
+  </ul>
+</div>

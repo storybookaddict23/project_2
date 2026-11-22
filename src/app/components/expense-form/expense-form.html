@@ -1,0 +1,24 @@
+<form (ngSubmit)="submit()" class="form">
+  <input [(ngModel)]="description" name="description" placeholder="Description" required />
+  <input [(ngModel)]="amount" name="amount" type="number" placeholder="Amount (₹)" required />
+
+  <select [(ngModel)]="paidBy" name="paidBy">
+    @for (m of members; track m) { <option [value]="m">Paid by {{ m }}</option> }
+  </select>
+
+  <select [(ngModel)]="group" name="group">
+    @for (g of groups; track g) { <option [value]="g">{{ g }}</option> }
+  </select>
+
+  <div class="people">
+    <span class="label">Split between:</span>
+    @for (m of members; track m) {
+      <label>
+        <input type="checkbox" [checked]="selected.includes(m)" (change)="toggle(m)" />
+        {{ m }}
+      </label>
+    }
+  </div>
+
+  <button type="submit">Add Expense</button>
+</form>

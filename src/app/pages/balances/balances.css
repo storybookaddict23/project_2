@@ -1,0 +1,12 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+th { background: var(--brand); color: white; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+.owed { color: var(--good); font-weight: 600; }
+.owes { color: var(--bad); font-weight: 600; }

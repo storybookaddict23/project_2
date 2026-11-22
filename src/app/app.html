@@ -1,0 +1,47 @@
+<div class="layout">
+  <!-- Component: top navigation bar -->
+  <app-sidebar />
+
+  <!-- ONE-WAY binding (class -> template): interpolation, property and class bindings -->
+  <section class="summary" [class.over]="overLimit()">
+    <span class="app-title">{{ title }}</span>
+    <span>Total spent: <strong>₹{{ svc.total() | number: '1.0-2' }}</strong></span>
+    <span>{{ svc.expenses().length }} expenses, {{ svc.groups().length }} groups</span>
+    @if (overLimit()) {
+      <span class="warn">Over the limit of ₹{{ spendLimit | number }}</span>
+    }
+  </section>
+
+  <!-- Page area: the router shows Dashboard, Expenses, Balances, Groups or Splits here -->
+  <main><router-outlet /></main>
+
+  <!-- TWO-WAY binding (template <-> class): [(ngModel)] on the checkbox and search box -->
+  <section class="quick">
+    <label class="toggle">
+      <input type="checkbox" [(ngModel)]="showQuickAdd" />
+      Show quick add panel
+    </label>
+
+    @if (showQuickAdd()) {
+      <div class="panel">
+        <!-- INPUTS (one-way, parent -> child) and OUTPUT event (child -> parent) -->
+        <app-expense-form
+          [members]="svc.members"
+          [groups]="svc.groups()"
+          (added)="svc.add($event)" />
+
+        <div class="searchbar">
+          <input [(ngModel)]="search" placeholder="Search by description, person or group" />
+          <!-- EVENT binding and property binding on [disabled] -->
+          <button (click)="clearSearch()" [disabled]="!search()">Clear</button>
+        </div>
+
+        <p class="count">Showing {{ filtered().length }} of {{ svc.expenses().length }}</p>
+
+        <app-expense-list [expenses]="filtered()" (remove)="svc.remove($event)" />
+      </div>
+    }
+  </section>
+
+  <footer>{{ title }} - {{ year }}</footer>
+</div>

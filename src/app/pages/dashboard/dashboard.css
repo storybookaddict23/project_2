@@ -1,0 +1,10 @@
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+.card {
+  background: linear-gradient(135deg, #fff7ed, #fed7aa);
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(154, 52, 18, 0.12);
+}
+h3 { margin: 0 0 8px; color: var(--muted); font-weight: 600; }
+p { font-size: 28px; font-weight: bold; margin: 0; color: var(--brand-dark); }

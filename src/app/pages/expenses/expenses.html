@@ -1,0 +1,3 @@
+<h1>Expenses</h1>
+<app-expense-form [members]="svc.members" [groups]="svc.groups()" (added)="svc.add($event)" />
+<app-expense-list [expenses]="svc.expenses()" (remove)="svc.remove($event)" />

@@ -1,0 +1,45 @@
+.add { display: flex; gap: 10px; margin-bottom: 16px; }
+.add input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  color: var(--text);
+}
+.add input:focus { outline: 2px solid var(--accent); }
+.add button {
+  padding: 10px 18px;
+  background: var(--brand);
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.add button:hover { background: var(--brand-dark); }
+
+.error { color: var(--bad); margin: 0 0 12px; font-weight: 600; }
+
+.group {
+  background: var(--card);
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--accent);
+  border-radius: 12px;
+}
+.head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+h3 { margin: 0; color: var(--brand-dark); flex: 1; }
+.total { color: var(--muted); font-weight: 600; }
+.del {
+  border: 1px solid var(--bad);
+  background: none;
+  color: var(--bad);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.del:hover { background: var(--bad); color: white; }
+p { margin: 4px 0; }
+.empty { color: var(--muted); }

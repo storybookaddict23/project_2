@@ -1,0 +1,37 @@
+h2 { color: var(--brand-dark); margin: 28px 0 12px; font-size: 20px; }
+
+.split {
+  background: var(--card);
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--brand);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+h3 { margin: 0 0 6px; color: var(--brand-dark); }
+.formula { margin: 0 0 10px; color: var(--muted); }
+.meta { color: var(--muted); margin: 10px 0 0; font-size: 14px; }
+
+table { width: 100%; border-collapse: collapse; }
+th { background: var(--brand); color: white; }
+th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+.owed { color: var(--good); font-weight: 600; }
+.owes { color: var(--bad); font-weight: 600; }
+.dim td { color: var(--muted); }
+.total td { font-weight: 700; background: #fde9cf; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.tabs button {
+  padding: 8px 16px;
+  border: 1px solid var(--brand);
+  background: var(--card);
+  color: var(--brand-dark);
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.tabs button.on { background: var(--brand); color: white; }
+
+ul { margin: 0; padding-left: 20px; }
+li { margin: 6px 0; }

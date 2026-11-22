@@ -1,0 +1,27 @@
+<h1>Groups</h1>
+
+<form class="add" (ngSubmit)="add()">
+  <input name="newGroup" [(ngModel)]="newGroup" placeholder="New group name" />
+  <button type="submit">Add Group</button>
+</form>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+@for (g of svc.groups(); track g) {
+  <div class="group">
+    <div class="head">
+      <h3>{{ g }}</h3>
+      <span class="total">Total: ₹{{ totalIn(g) | number: '1.0-2' }}</span>
+      <button class="del" (click)="remove(g)">Delete group</button>
+    </div>
+    @for (e of expensesIn(g); track e.id) {
+      <p>{{ e.description }} - ₹{{ e.amount | number: '1.0-2' }} (paid by {{ e.paidBy }})</p>
+    } @empty {
+      <p class="empty">No expenses in this group yet.</p>
+    }
+  </div>
+} @empty {
+  <p>No groups yet. Add one above.</p>
+}
